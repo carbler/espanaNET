@@ -20,8 +20,8 @@ namespace CapaDatos
 {
     public class Startup
     {
-        private string issuer = "http://" + ConfigurationManager.AppSettings["server"] + ":" + ConfigurationManager.AppSettings["port"];
-
+        private string issuer = ConfigurationManager.AppSettings["URL"];
+        
         public void Configuration(IAppBuilder app)
         {
             HttpConfiguration httpConfig = new HttpConfiguration();
