@@ -33,6 +33,21 @@ namespace CapaPresentacion.Controllers
             return NotFound();
         }
 
+    
+        [Authorize]
+        [Route("user/{username}")]
+        public async Task<IHttpActionResult> GetUserByName(string username)
+        {
+            var user = await new UserBLL(Request).getUserName(username);
+
+            if (user != null)
+            {
+                return Ok(user);
+            }
+            return NotFound();
+
+        }
+
         [AllowAnonymous]
         [Route("create")]
         public async Task<IHttpActionResult> CreateUser(CreateUserBindingModel createUserModel)

@@ -31,6 +31,17 @@ namespace CapaLogica
             return null;
         }
 
+        public async Task<UserDTO> getUserName(string name)
+        {
+            var user = await UserManager.FindByNameAsync(name);
+
+            if (user != null)
+            {
+                return setUserDTO(user);
+            }
+            return null;
+        }
+
         public RespuestaDTO<List<UserDTO>> GetUsers()
         {
             List<UserDTO> usersDTO = new List<UserDTO>();
