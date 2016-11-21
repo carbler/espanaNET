@@ -16,20 +16,25 @@ namespace CapaPresentacion.Models
             [Display(Name = "Tipo")]
             public string Tipo { get; set; }
 
+            [Required]
+            [Display(Name = "Modelo")]
+            public string Modelo { get; set; }
 
             [Required]
-            [Display(Name = "nombreEquipo")]
-            public string nombreEquipo { get; set; }
+            [Display(Name = "Serial")]
+            public string Serial { get; set; }
 
+            [Required]
+            [Display(Name = "FechaCompra")]
+            public DateTime FechaCompra { get; set; }
+
+            [Required]
+            [Display(Name = "Descripcion")]
+            public string Descripcion { get; set; }
 
             [Required]
             [Display(Name = "Marca")]
             public string Marca { get; set; }
-
-
-            [Required]
-            [Display(Name = "Estado")]
-            public string Estado { get; set; }
 
 
         }

@@ -24,10 +24,13 @@ namespace CapaLogica
                 {
                     // preparar el Equipo para guardar
                     Equipos nuevo = new Equipos();
-                    nuevo.nombreEquipo = equipos.nombreEquipo;
+                    nuevo.Modelo = equipos.Modelo;
+                    nuevo.Serial = equipos.Serial;
                     nuevo.Tipo = equipos.Tipo;
                     nuevo.Marca = equipos.Marca;
-                    nuevo.Estado = equipos.Estado;
+                    nuevo.Estado = true;
+                    nuevo.FechaCompra = equipos.FechaCompra;
+                    nuevo.Descripcion = equipos.Descripcion;
                     db.Equipos.Add(nuevo);
 
                     // preparar la respuesta

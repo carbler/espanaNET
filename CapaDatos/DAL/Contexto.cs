@@ -15,7 +15,8 @@ namespace CapaDatos.DAL
         public Contexto() : base("name=EspanaNETConnection")
         {
             
-            Database.SetInitializer<Contexto>(new DropCreateDatabaseAlways<Contexto>());
+         //   Database.SetInitializer<Contexto>(new DropCreateDatabaseAlways<Contexto>());
+            Database.SetInitializer<Contexto>(new CreateDatabaseIfNotExists<Contexto>());
         }
 
         public DbSet<Alquiler> Alquiler { get; set; }

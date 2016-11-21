@@ -22,10 +22,13 @@ namespace CapaPresentacion.Controllers
 
                 ResponseDTO result = new EquiposBLL().Insertar(new EquiposDTO()
                 {
-                    nombreEquipo = model.nombreEquipo,
-                    Tipo = model.nombreEquipo,
+                    Modelo = model.Modelo,
+                    FechaCompra = model.FechaCompra,
+                    Serial = model.Serial,
+                    Descripcion = model.Descripcion,
+                    Tipo = model.Tipo,
                     Marca = model.Marca,
-                    Estado = model.Estado
+                 
                 });
 
                 return Ok(result);
