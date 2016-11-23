@@ -11,10 +11,10 @@ namespace Entidades
         public int AlquilerId { get; set; }
 
         public string nombreCliente { get; set; }
-
         public string Telefono { get; set; }
         public string Direccion { get; set; }
-
-        public string Servicios { get; set; }
-    }
+        public DateTime fechaInicial { get; set; }
+        public DateTime fechaFinal { get; set; }
+        public string equipos { get; set; }
+       }
 }

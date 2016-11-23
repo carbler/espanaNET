@@ -25,12 +25,15 @@ namespace CapaPresentacion.Models
             [Display(Name = "Direccion")]
             public string Direccion { get; set; }
 
+            [Required]
+            [Display(Name = "fechaInicial")]
+            public DateTime fechaInicial { get; set; }
 
             [Required]
-            [Display(Name = "Servicios")]
-            public string Servicios { get; set; }
-           
+            [Display(Name = "fechaFinal")]
+            public DateTime fechaFinal { get; set; }
 
+            public String equipos;
         }
     }
 }

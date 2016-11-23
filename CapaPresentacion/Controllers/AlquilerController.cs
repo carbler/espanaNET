@@ -19,14 +19,16 @@ namespace CapaPresentacion.Controllers
         public IHttpActionResult Create(CreateAlquilerBindingModel model)
         {
 
-         
-            ResponseDTO result =  new AlquilerBLL().Insertar(new AlquilerDTO()
+
+            ResponseDTO result = new AlquilerBLL().Insertar(new AlquilerDTO()
             {
                 Direccion = model.Direccion,
                 Telefono = model.Telefono,
-                Servicios = model.Servicios,
-                nombreCliente = model.nombreCliente
-            });
+                nombreCliente = model.nombreCliente,
+                fechaFinal = model.fechaFinal,
+                fechaInicial = model.fechaInicial,
+                equipos = model.equipos
+               });
 
             return Ok(result);
 

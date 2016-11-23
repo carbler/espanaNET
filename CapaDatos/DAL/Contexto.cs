@@ -36,7 +36,11 @@ namespace CapaDatos.DAL
             // .HasForeignKey(d => d.TipoDocumentoId)
             // .WillCascadeOnDelete(false);
 
+          
             base.OnModelCreating(modelBuilder);
-        }
+
+
+         
+        }   
     }
 }

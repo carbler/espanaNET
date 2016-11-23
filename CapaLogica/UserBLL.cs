@@ -66,9 +66,13 @@ namespace CapaLogica
                 LastName = createUserModel.LastName,
                 Level = 3,
                 JoinDate = DateTime.Now.Date,
+                
             };
             RespuestaDTO<UserDTO> response = new RespuestaDTO<UserDTO>();
             response.Error = ApplicationUserManager.Result(await UserManager.CreateAsync(user, createUserModel.Password));
+
+            await UserManager.AddToRolesAsync(UserManager.FindByNameAsync(user.UserName).Result.Id, new string[] { "Institucion" });
+            // ApplicationUserManager.AddToRoles(adminUser.Id, new string[] { "SuperAdmin", "Admin" });
 
             if (response.Error.Count > 0)
             {

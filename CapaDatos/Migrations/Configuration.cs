@@ -25,10 +25,10 @@ namespace CapaDatos.Migrations
 
             var user = new ApplicationUser()
             {
-                UserName = "Adrian",
+                UserName = "Espana",
                 Email = "taiseer.joudeh@gmail.com",
                 EmailConfirmed = true,
-                FirstName = "Taiseer",
+                FirstName = "España.NET",
                 LastName = "Joudeh",
                 Level = 1,
                 JoinDate = DateTime.Now.AddYears(-3)
@@ -40,12 +40,12 @@ namespace CapaDatos.Migrations
             {
                 roleManager.Create(new IdentityRole { Name = "SuperAdmin" });
                 roleManager.Create(new IdentityRole { Name = "Admin" });
-                roleManager.Create(new IdentityRole { Name = "User" });
+                roleManager.Create(new IdentityRole { Name = "Institucion" });
             }
 
-            var adminUser = manager.FindByName("Adrian");
+            var adminUser = manager.FindByName("Espana");
 
-            manager.AddToRoles(adminUser.Id, new string[] { "SuperAdmin", "Admin" });
+            manager.AddToRoles(adminUser.Id, new string[] { "SuperAdmin"});
         }
     }
 }
