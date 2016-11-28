@@ -10,8 +10,9 @@ namespace CapaPresentacion.Models
     {
         public class CreateEquiposBindingModels
         {
-            
-          
+
+            public int EquiposId { get; set; }
+
             [Required]
             [Display(Name = "Tipo")]
             public string Tipo { get; set; }
@@ -35,6 +36,8 @@ namespace CapaPresentacion.Models
             [Required]
             [Display(Name = "Marca")]
             public string Marca { get; set; }
+
+            public Boolean Estado { get; set; }
 
 
         }

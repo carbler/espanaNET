@@ -99,6 +99,7 @@
   <ItemGroup>
     <Compile Include="AlquilerBLL.cs" />
     <Compile Include="BaseContextBBL.cs" />
+    <Compile Include="DocenteBLL.cs" />
     <Compile Include="EquiposBLL.cs" />
     <Compile Include="RoleBLL.cs" />
     <Compile Include="UserBLL.cs" />

@@ -33,5 +33,16 @@ namespace CapaPresentacion.Controllers
             return Ok(result);
 
         }
+
+        [Route("AlquileresFecha")]
+        public IHttpActionResult AlquileresFecha(CreateAlquilerBindingModel model)
+        {
+           
+            
+            var respuesta = new AlquilerBLL().getAlquileresPorFecha(model.fechaInicial, model.fechaFinal);
+         
+            return Ok(respuesta);
+
+        }
     }
 }

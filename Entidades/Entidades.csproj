@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AlquilerDTO.cs" />
+    <Compile Include="DocenteDTO.cs" />
     <Compile Include="EquiposDTO.cs" />
     <Compile Include="UsersInRoleModelDTO.cs" />
     <Compile Include="CreateUserDTO.cs" />

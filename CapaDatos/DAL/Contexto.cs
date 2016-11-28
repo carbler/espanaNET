@@ -21,6 +21,7 @@ namespace CapaDatos.DAL
 
         public DbSet<Alquiler> Alquiler { get; set; }
         public DbSet<Equipos> Equipos { get; set; }
+        public DbSet<Docente> Docentes { get; set; }
         //  public DbSet<Proyecto> Proyectos { get; set; }
         // public DbSet<Facturas> Facturas { get; set; }
         // public DbSet<ItemFactura> ItemFacturas { get; set; }

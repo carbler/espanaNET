@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using CapaDatos.DAL;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,8 @@ namespace CapaDatos.Infraestructura
 {
     public class ApplicationUser : IdentityUser
     {
+
+    
         [Required]
         [MaxLength(100)]
         public string FirstName { get; set; }
@@ -32,5 +35,7 @@ namespace CapaDatos.Infraestructura
             // Add custom user claims here
             return userIdentity;
         }
+
+      
     }
 }

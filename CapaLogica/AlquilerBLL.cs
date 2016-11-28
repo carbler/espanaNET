@@ -12,13 +12,13 @@ using System.Data.Entity.Core.Objects;
 
 namespace CapaLogica
 {
-   public class AlquilerBLL 
+    public class AlquilerBLL
     {
         ResponseDTO response = new ResponseDTO();
-     
+        Contexto db;
         public ResponseDTO Insertar(AlquilerDTO alquiler)
         {
-            using (Contexto db = new Contexto())
+            using (db= new Contexto())
             {
                 try
                 {
@@ -31,22 +31,34 @@ namespace CapaLogica
                     nuevo.Telefono = alquiler.Telefono;
                     nuevo.fechaFinal = alquiler.fechaFinal;
                     nuevo.fechaInicial = alquiler.fechaInicial;
-                    
-                   // String x = DateTime.Now.ToString();
+
+                    // String x = DateTime.Now.ToString();
                     // Separando el string con los tipos de equipos
-                    String[] tiposEquipo = alquiler.equipos.Split(new Char[] {'.'});
+                    String[] tiposEquipo = alquiler.equipos.Split(new Char[] { '.' });
 
-                   
-                    foreach (String tipo in tiposEquipo)
+
+                    foreach (String tipo  in tiposEquipo)
                     {
-                    //   DbRawSqlQuery<Equipos> x = consulta(alquiler.fechaFinal.ToString(),alquiler.fechaFinal.ToString(), tipo);
-                       // nuevo.Equipos.Add(x.First());
+                        List<Equipos> x = Disponibles(alquiler.fechaInicial, alquiler.fechaFinal, tipo);
+                       // nuevo.Equipos.Add(x.FirstOrDefault());
+
+                        if(x.Count > 0)
+                        {
+                            x[0].Alquilers.Add(nuevo);
+                        }else
+                        {
+
+                            response.Mensaje = "No hay equipos Disponibles";
+                            response.FilasAfectadas = 0;
+
+                            return response;
+                        }
                     }
-                  
+                        
+                   
 
+                    //  db.Alquiler.Add(nuevo);
 
-                    db.Alquiler.Add(nuevo);
-               
                     // preparar la respuesta
 
                     response.Mensaje = "Alquiler Insertado";
@@ -73,54 +85,131 @@ namespace CapaLogica
 
         }
 
-        public List<Equipos> GetRecords()
-        {
-            using (Contexto db = new Contexto())
-            {
-                return db.Equipos
-                    .Select(t =>
-                        new Equipos
-                        {
-                            EquiposId  = t.EquiposId
-                        }
-                    ).ToList();
-            }
-        }
+  
         /*
-        public DbRawSqlQuery<Equipos> consulta(String fechaInicial, String fechaFinal, String Tipo)
+        public List<Equipos> Consulta(DateTime fechaInicial, DateTime fechaFinal, String Tipo)
         {
             using (Contexto db = new Contexto())
             {
                 var sql = @"SELECT *from Equipos where not EquiposId in (select ea.Equipos_EquiposId from Alquiler a, EquiposAlquiler ea where a.AlquilerId=ea.Alquiler_AlquilerId and @fechaInicial BETWEEN a.fechaInicial and a.fechaFinal and @fechaFinal BETWEEN a.fechaInicial AND a.fechaFinal union select ea.Equipos_EquiposId from Alquiler a, EquiposAlquiler ea where a.AlquilerId=ea.Alquiler_AlquilerId and a.fechaInicial BETWEEN @fechaInicial and @fechaFinal AND a.fechaFinal BETWEEN @fechaInicial and @fechaFinal) and Tipo=@Tipo";
-                /*
+
                 object[] parameters = new object[] {
                      new SqlParameter("@fechaInicial", fechaInicial),
                      new SqlParameter("@Tipo", Tipo),
                      new SqlParameter("@fechaFinal", fechaFinal) };
-                return db.Database.SqlQuery<Equipos>(sql, parameters);
+                List<Equipos> ListaEquipos = db.Database.SqlQuery<Equipos>(sql, parameters).ToList();
+                return ListaEquipos;
+                /*
+                ObjectQuery<Equipos> contactQuery =
+                new ObjectQuery<Equipos>(sql, db.Database)
 
-               */
-               /*
-               ObjectQuery<Equipos> contactQuery =
-               new ObjectQuery<Equipos>(sql, db.Database)
-               
-                // The following query returns a collection of Contact objects.
-                ObjectQuery<Equipos> query = new ObjectQuery<Equipos>(sql, db, MergeOption.NoTracking);
-                query.Parameters.Add(new ObjectParameter("ln", "Zhou"));
+                 // The following query returns a collection of Contact objects.
+                 ObjectQuery<Equipos> query = new ObjectQuery<Equipos>(sql, db, MergeOption.NoTracking);
+                 query.Parameters.Add(new ObjectParameter("ln", "Zhou"));
 
-                // Add parameters to the collection.
-                contactQuery.Parameters.Add(new ObjectParameter("@fechaInicial", fechaInicial));
-                contactQuery.Parameters.Add(new ObjectParameter("@Tipo",Tipo));
-                contactQuery.Parameters.Add(new ObjectParameter("@fechaFinal", fechaFinal));
-               
+                 // Add parameters to the collection.
+                 contactQuery.Parameters.Add(new ObjectParameter("@fechaInicial", fechaInicial));
+                 contactQuery.Parameters.Add(new ObjectParameter("@Tipo",Tipo));
+                 contactQuery.Parameters.Add(new ObjectParameter("@fechaFinal", fechaFinal));
+              
             }
 
 
-      
+
 
 
 
         }
-         */
+
+      */
+
+        public RespuestaDTO<List<AlquilerDTO>> getAlquileresPorFecha(DateTime fechaInicialPrestamo, DateTime fechaFinalPrestamo)
+        {
+            RespuestaDTO<List<AlquilerDTO>> response = new RespuestaDTO<List<AlquilerDTO>>();
+            
+            using (db = new Contexto())
+            {
+                var Alquileres = db.Alquiler.Where(t =>
+                        (
+                        (t.fechaInicial <= fechaInicialPrestamo && t.fechaFinal >= fechaInicialPrestamo)
+                        ||
+                        (t.fechaInicial <= fechaFinalPrestamo && t.fechaFinal >= fechaFinalPrestamo)
+                        ||
+                        (t.fechaInicial < fechaInicialPrestamo && t.fechaFinal > fechaFinalPrestamo)
+                        ||
+                        (fechaInicialPrestamo < t.fechaInicial && fechaFinalPrestamo > t.fechaFinal)
+                        )).ToList();
+
+                response.Mensaje = "Listado Alquileres";
+                response.Data = AlquilerToAlquilerDTO(Alquileres);
+                return response ;
+
+
+            }
+           
+        }
+
+        public List<Equipos> Disponibles(DateTime fechaInicialPrestamo, DateTime fechaFinalPrestamo, String Tipo)
+        {
+          
+                var EquiposDisponibles = db.Equipos.Where(e => e.Tipo == Tipo && e.Alquilers.Where(t =>
+                 (
+                 (t.fechaInicial <= fechaInicialPrestamo && t.fechaFinal >= fechaInicialPrestamo)
+                 ||
+                 (t.fechaInicial <= fechaFinalPrestamo && t.fechaFinal >= fechaFinalPrestamo)
+                 ||
+                 (t.fechaInicial < fechaInicialPrestamo && t.fechaFinal > fechaFinalPrestamo)
+                 ||
+                 (fechaInicialPrestamo < t.fechaInicial && fechaFinalPrestamo > t.fechaFinal)
+                 )
+                ).Count() == 0).ToList();
+
+                return EquiposDisponibles;
+
+        }
+
+        /*
+        public List<Equipos> AlquileresDocente(, DateTime fechaFinalPrestamo, String Tipo)
+        {
+
+            var EquiposDisponibles = db.Equipos.Where(e => e.Tipo == Tipo && e.Alquilers.Where(t =>
+             (
+             (t.fechaInicial <= fechaInicialPrestamo && t.fechaFinal >= fechaInicialPrestamo)
+             ||
+             (t.fechaInicial <= fechaFinalPrestamo && t.fechaFinal >= fechaFinalPrestamo)
+             ||
+             (t.fechaInicial < fechaInicialPrestamo && t.fechaFinal > fechaFinalPrestamo)
+             ||
+             (fechaInicialPrestamo < t.fechaInicial && fechaFinalPrestamo > t.fechaFinal)
+             )
+            ).Count() == 0).ToList();
+
+            return EquiposDisponibles;
+
+        }
+
+    */
+        private List<AlquilerDTO> AlquilerToAlquilerDTO(List<Alquiler> alquileres){
+            List<AlquilerDTO> listadoDTO = new List<AlquilerDTO>();
+            foreach (Alquiler alquiler  in alquileres)
+            {
+                listadoDTO.Add(new AlquilerDTO()
+                {
+                    AlquilerId = alquiler.AlquilerId,
+                    Direccion = alquiler.Direccion,
+                    nombreCliente = alquiler.nombreCliente,
+                    fechaInicial = alquiler.fechaInicial,
+                    fechaFinal = alquiler.fechaFinal,
+                    Telefono = alquiler.Telefono
+                    
+
+                });
+
+
+            }
+
+            return listadoDTO;
+       }
+
     }
 }
