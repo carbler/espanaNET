@@ -34,26 +34,95 @@ namespace CapaLogica
 
                     // String x = DateTime.Now.ToString();
                     // Separando el string con los tipos de equipos
-                    String[] tiposEquipo = alquiler.equipos.Split(new Char[] { '.' });
-
-
-                    foreach (String tipo  in tiposEquipo)
+                    String[] tiposEquipo = alquiler.equipos.Split(new Char[] { ',' });
+                    int[] cantidadTipo = new int[3];
+                    foreach (String tipo in tiposEquipo)
                     {
-                        List<Equipos> x = Disponibles(alquiler.fechaInicial, alquiler.fechaFinal, tipo);
-                       // nuevo.Equipos.Add(x.FirstOrDefault());
-
-                        if(x.Count > 0)
+                        if (tipo != "")
                         {
-                            x[0].Alquilers.Add(nuevo);
-                        }else
-                        {
+                            if (tipo == "Proyector")
+                            {
+                                cantidadTipo[0] = cantidadTipo[0] + 1;
+                            }
+                            else if (tipo == "Luces")
+                            {
+                                cantidadTipo[1] = cantidadTipo[0] + 1;
 
-                            response.Mensaje = "No hay equipos Disponibles";
-                            response.FilasAfectadas = 0;
+                            }
+                            else if (tipo == "Sonido")
+                            {
+                                cantidadTipo[2] = cantidadTipo[0] + 1;
 
-                            return response;
+                            }
                         }
                     }
+
+
+
+                    List<Equipos> listadoProyectores = Disponibles2(alquiler.fechaInicial, alquiler.fechaFinal, "Proyector");
+                    List<Equipos> listadoLuces = Disponibles2(alquiler.fechaInicial, alquiler.fechaFinal, "Luces");
+                    List<Equipos> listadoSonido = Disponibles2(alquiler.fechaInicial, alquiler.fechaFinal, "Sonido");
+
+
+                    if (cantidadTipo[0] > listadoProyectores.Count)
+                    {
+
+                        response.Mensaje = "No hay Proyectores Disponibles";
+                        response.FilasAfectadas = 0;
+                        response.Error.Add(new ErrorDTO()
+                        {
+                            Menssage = "No hay Proyectores Disponibles"
+                         });
+
+                        return response;
+                    }
+                    else if (cantidadTipo[1] > listadoLuces.Count)
+                    {
+
+                        response.Mensaje = "No hay Luces Disponibles";
+                        response.FilasAfectadas = 0;
+                        response.Error.Add(new ErrorDTO()
+                        {
+                            Menssage = "No hay Proyectores Disponibles"
+                        });
+
+                        return response;
+
+                    }
+                    else if (cantidadTipo[2] > listadoSonido.Count)
+                    {
+
+                        response.Mensaje = "No hay Sonido Disponibles";
+                        response.FilasAfectadas = 0;
+                        response.Error.Add(new ErrorDTO()
+                        {
+                            Menssage = "No hay Proyectores Disponibles"
+                        });
+
+                        return response;
+
+                    }
+
+
+  
+                        for(var i =0; i<cantidadTipo[0] ; i++)
+                        {
+                        listadoProyectores[i].Alquilers.Add(nuevo);
+
+                        }
+
+                    for (var i = 0; i < cantidadTipo[1]; i++)
+                    {
+                        listadoLuces[i].Alquilers.Add(nuevo);
+
+                    }
+
+                    for (var i = 0; i < cantidadTipo[2]; i++)
+                    {
+                        listadoSonido[i].Alquilers.Add(nuevo);
+
+                    }
+                 
                         
                    
 
@@ -165,6 +234,23 @@ namespace CapaLogica
                 ).Count() == 0).ToList();
 
                 return EquiposDisponibles;
+
+        }
+
+        public List<Equipos> Disponibles2(DateTime fechaInicialPrestamo, DateTime fechaFinalPrestamo, String Tipo)
+        {
+
+            var EquiposDisponibles = db.Equipos.Where(e => e.Tipo == Tipo && e.Alquilers.Where(t =>
+             (
+             (t.fechaInicial >= fechaInicialPrestamo && t.fechaInicial <= fechaFinalPrestamo)
+             ||
+             (t.fechaInicial <= fechaInicialPrestamo && t.fechaFinal >= fechaInicialPrestamo && t.fechaFinal <= fechaFinalPrestamo)
+             ||
+             (t.fechaInicial <= fechaInicialPrestamo && t.fechaFinal >= fechaFinalPrestamo)
+             )
+            ).Count() == 0).ToList();
+
+            return EquiposDisponibles;
 
         }
 
