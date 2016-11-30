@@ -120,6 +120,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DAL\Alquiler.cs" />
+    <Compile Include="DAL\AlquilerInstitucion.cs" />
     <Compile Include="DAL\Contexto.cs" />
     <Compile Include="DAL\Docente.cs" />
     <Compile Include="DAL\Equipos.cs" />

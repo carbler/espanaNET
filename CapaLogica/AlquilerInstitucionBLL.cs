@@ -12,23 +12,23 @@ using System.Data.Entity.Core.Objects;
 
 namespace CapaLogica
 {
-    public class AlquilerBLL
+    public class AlquilerInstitucionBLL
     {
         ResponseDTO response = new ResponseDTO();
         Contexto db;
-        public ResponseDTO Insertar(AlquilerDTO alquiler)
+        public ResponseDTO Insertar(AlquilerInstitucionDTO alquiler)
         {
-            using (db= new Contexto())
+            using (db = new Contexto())
             {
                 try
                 {
 
                     // preparar el cliente para guardar
-                    Alquiler nuevo = new Alquiler();
-                    nuevo.AlquilerId = alquiler.AlquilerId;
-                    nuevo.Direccion = alquiler.Direccion;
-                    nuevo.nombreCliente = alquiler.nombreCliente;
-                    nuevo.Telefono = alquiler.Telefono;
+                    AlquilerInstitucion nuevo = new AlquilerInstitucion();
+                    nuevo.AlquilerInstitucionId = alquiler.AlquilerInstitucionId;
+                    nuevo.Salon = alquiler.Salon;
+                    nuevo.Docente = db.Docentes.Where((e => e.DocenteId == alquiler.Docente)).First();
+                    nuevo.Descripcion = alquiler.Descripcion;
                     nuevo.fechaFinal = alquiler.fechaFinal;
                     nuevo.fechaInicial = alquiler.fechaInicial;
 
@@ -72,7 +72,7 @@ namespace CapaLogica
                         response.Error.Add(new ErrorDTO()
                         {
                             Menssage = "No hay Proyectores Disponibles"
-                         });
+                        });
 
                         return response;
                     }
@@ -104,27 +104,27 @@ namespace CapaLogica
                     }
 
 
-  
-                        for(var i =0; i<cantidadTipo[0] ; i++)
-                        {
-                        listadoProyectores[i].Alquilers.Add(nuevo);
 
-                        }
+                    for (var i = 0; i < cantidadTipo[0]; i++)
+                    {
+                        listadoProyectores[i].AlquilersInstitucion.Add(nuevo);
+
+                    }
 
                     for (var i = 0; i < cantidadTipo[1]; i++)
                     {
-                        listadoLuces[i].Alquilers.Add(nuevo);
+                        listadoLuces[i].AlquilersInstitucion.Add(nuevo);
 
                     }
 
                     for (var i = 0; i < cantidadTipo[2]; i++)
                     {
-                        listadoSonido[i].Alquilers.Add(nuevo);
+                        listadoSonido[i].AlquilersInstitucion.Add(nuevo);
 
                     }
-                 
-                        
-                   
+
+
+
 
                     //  db.Alquiler.Add(nuevo);
 
@@ -154,7 +154,7 @@ namespace CapaLogica
 
         }
 
-  
+
         /*
         public List<Equipos> Consulta(DateTime fechaInicial, DateTime fechaFinal, String Tipo)
         {
@@ -192,13 +192,13 @@ namespace CapaLogica
 
       */
 
-        public RespuestaDTO<List<AlquilerDTO>> getAlquileresPorFecha(DateTime fechaInicialPrestamo, DateTime fechaFinalPrestamo)
+        public RespuestaDTO<List<AlquilerInstitucionDTO>> getAlquileresInstitucionPorFecha(DateTime fechaInicialPrestamo, DateTime fechaFinalPrestamo)
         {
-            RespuestaDTO<List<AlquilerDTO>> response = new RespuestaDTO<List<AlquilerDTO>>();
-            
+            RespuestaDTO<List<AlquilerInstitucionDTO>> response = new RespuestaDTO<List<AlquilerInstitucionDTO>>();
+
             using (db = new Contexto())
             {
-                var Alquileres = db.Alquiler.Where(t =>
+                var Alquileres = db.AlquilerInstitucion.Where(t =>
                         (
                         (t.fechaInicial <= fechaInicialPrestamo && t.fechaFinal >= fechaInicialPrestamo)
                         ||
@@ -210,13 +210,14 @@ namespace CapaLogica
                         )).ToList();
 
                 response.Mensaje = "Listado Alquileres";
-                response.Data = AlquilerToAlquilerDTO(Alquileres);
-                return response ;
+                response.Data = AlquilerInstitucionToAlquilerInstitucionDTO(Alquileres);
+                return response;
 
 
             }
-           
+
         }
+
 
         private List<Equipos> Disponibles(DateTime fechaInicialPrestamo, DateTime fechaFinalPrestamo, String Tipo)
         {
@@ -224,19 +225,19 @@ namespace CapaLogica
             List<Equipos> EquiosAlquileresInstitucion = Disponibles3(fechaInicialPrestamo, fechaFinalPrestamo, Tipo);
 
             List<Equipos> disponibles = new List<Equipos>();
-            foreach (Equipos e1 in EquiposAlquileres)
+            foreach(Equipos e1 in EquiposAlquileres)
             {
                 int contador = 0;
                 foreach (Equipos e2 in EquiosAlquileresInstitucion)
                 {
-                    if (e1.EquiposId == e2.EquiposId)
+                    if(e1.EquiposId == e2.EquiposId)
                     {
                         contador++;
                     }
 
                 }
 
-                if (contador > 0)
+                if(contador>0)
                 {
                     disponibles.Add(e1);
 
@@ -271,7 +272,7 @@ namespace CapaLogica
 
         }
 
-
+       
 
         private List<Equipos> Disponibles3(DateTime fechaInicialPrestamo, DateTime fechaFinalPrestamo, String Tipo)
         {
@@ -328,27 +329,27 @@ namespace CapaLogica
         }
 
     */
-        private List<AlquilerDTO> AlquilerToAlquilerDTO(List<Alquiler> alquileres){
-            List<AlquilerDTO> listadoDTO = new List<AlquilerDTO>();
-            foreach (Alquiler alquiler  in alquileres)
+        private List<AlquilerInstitucionDTO> AlquilerInstitucionToAlquilerInstitucionDTO(List<AlquilerInstitucion> alquileres)
+        {
+            List<AlquilerInstitucionDTO> listadoDTO = new List<AlquilerInstitucionDTO>();
+            foreach (AlquilerInstitucion alquiler in alquileres)
             {
-                listadoDTO.Add(new AlquilerDTO()
+                listadoDTO.Add(new AlquilerInstitucionDTO()
                 {
-                    AlquilerId = alquiler.AlquilerId,
-                    Direccion = alquiler.Direccion,
-                    nombreCliente = alquiler.nombreCliente,
+                    AlquilerInstitucionId = alquiler.AlquilerInstitucionId,
+                    Descripcion = alquiler.Descripcion,
+                    Salon = alquiler.Salon,
+                    Docente = alquiler.Docente.DocenteId,                   
                     fechaInicial = alquiler.fechaInicial,
-                    fechaFinal = alquiler.fechaFinal,
-                    Telefono = alquiler.Telefono
+                    fechaFinal = alquiler.fechaFinal
                     
-
                 });
 
 
             }
 
             return listadoDTO;
-       }
+        }
 
     }
 }

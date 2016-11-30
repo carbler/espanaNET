@@ -26,10 +26,7 @@ namespace CapaLogica
                     nuevo.Correo = docente.Correo;
                     nuevo.Telefono = docente.Telefono;
                     nuevo.Institucion = docente.Institucion;
-
-                   
-
-
+                    nuevo.HorasAsignadas = docente.HorasAsignadas;
 
                      db.Docentes.Add(nuevo);
 

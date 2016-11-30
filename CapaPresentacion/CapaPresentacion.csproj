@@ -144,11 +144,13 @@
   <ItemGroup>
     <Compile Include="Controllers\AccountsController.cs" />
     <Compile Include="Controllers\AlquilerController.cs" />
+    <Compile Include="Controllers\AlquilerInstitucionController.cs" />
     <Compile Include="Controllers\BaseApiController.cs" />
     <Compile Include="Controllers\DocenteController.cs" />
     <Compile Include="Controllers\EquiposController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Models\AlquilerBindingModels.cs" />
+    <Compile Include="Models\AlquilerInstitucionBindingModels.cs" />
     <Compile Include="Models\EquiposBindingModels.cs" />
     <Compile Include="Models\RoleBindingModels.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />

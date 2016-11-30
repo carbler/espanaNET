@@ -14,6 +14,7 @@ namespace CapaDatos.DAL
         public Equipos()
         {
             this.Alquilers = new HashSet<Alquiler>();
+            this.AlquilersInstitucion = new HashSet<AlquilerInstitucion>();
         }
 
         public int EquiposId { get; set; }
@@ -26,5 +27,6 @@ namespace CapaDatos.DAL
         public Boolean Estado { get; set; }
 
         public virtual ICollection<Alquiler> Alquilers { get; set; }
+        public virtual ICollection<AlquilerInstitucion> AlquilersInstitucion { get; set; }
     }
 }

@@ -13,6 +13,7 @@ namespace Entidades
         public String Apellidos { get; set; }
         public String Correo { get; set; }
         public String Telefono { get; set; }
+        public int HorasAsignadas { get; set; }
 
         public string Institucion { get; set; }
     }
