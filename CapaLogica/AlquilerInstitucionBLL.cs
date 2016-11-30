@@ -25,12 +25,13 @@ namespace CapaLogica
 
                     // preparar el cliente para guardar
                     AlquilerInstitucion nuevo = new AlquilerInstitucion();
-                    nuevo.AlquilerInstitucionId = alquiler.AlquilerInstitucionId;
+                   // nuevo.AlquilerInstitucionId = alquiler.AlquilerInstitucionId;
                     nuevo.Salon = alquiler.Salon;
                     nuevo.Docente = db.Docentes.Where((e => e.DocenteId == alquiler.Docente)).First();
                     nuevo.Descripcion = alquiler.Descripcion;
                     nuevo.fechaFinal = alquiler.fechaFinal;
                     nuevo.fechaInicial = alquiler.fechaInicial;
+                    nuevo.Institucion = alquiler.Institucion;
 
                     // String x = DateTime.Now.ToString();
                     // Separando el string con los tipos de equipos
@@ -357,10 +358,12 @@ namespace CapaLogica
                     AlquilerInstitucionId = alquiler.AlquilerInstitucionId,
                     Descripcion = alquiler.Descripcion,
                     Salon = alquiler.Salon,
-                    Docente = alquiler.Docente.DocenteId,                   
+                    Docente = alquiler.Docente.DocenteId,
                     fechaInicial = alquiler.fechaInicial,
-                    fechaFinal = alquiler.fechaFinal
-                    
+                    fechaFinal = alquiler.fechaFinal,
+                    NombreDocente = alquiler.Docente.Nombre + " "+ alquiler.Docente.Apellidos,
+                    Institucion = alquiler.Institucion
+
                 });
 
 

@@ -15,8 +15,11 @@ namespace Entidades
         public string Salon { get; set; }
         public string Descripcion { get; set; }
         public int  Docente { get; set; }
+        public string Institucion { get; set; }
 
         public string equipos { get; set; }
-     
+
+        public String NombreDocente { get; set; }
+
     }
 }

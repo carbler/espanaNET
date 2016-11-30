@@ -18,6 +18,8 @@ namespace CapaPresentacion.Models
             public DateTime fechaInicial { get; set; }
             public DateTime fechaFinal { get; set; }
 
+            public string Institucion { get; set; }
+
             public String equipos;
         }
     }

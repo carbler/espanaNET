@@ -22,6 +22,7 @@ namespace CapaDatos.DAL
         public string Salon { get; set; }
         public string  Descripcion { get; set; }
         public virtual Docente Docente { get; set; }
+        public string Institucion { get; set; }
 
         public virtual ICollection<Equipos> Equipos { get; set; }
     }

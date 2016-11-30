@@ -27,7 +27,8 @@ namespace CapaPresentacion.Controllers
                 Docente = model.Docente,
                 fechaFinal = model.fechaFinal,
                 fechaInicial = model.fechaInicial,
-                equipos = model.equipos
+                equipos = model.equipos,
+                Institucion = model.Institucion
             });
 
             return Ok(result);
