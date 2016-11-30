@@ -192,6 +192,24 @@ namespace CapaLogica
 
       */
 
+
+        public RespuestaDTO<List<AlquilerInstitucionDTO>> getAlquileresDocente(int docenteId)
+        {
+            RespuestaDTO<List<AlquilerInstitucionDTO>> response = new RespuestaDTO<List<AlquilerInstitucionDTO>>();
+
+            using (db = new Contexto())
+            {
+                var Alquileres = db.AlquilerInstitucion.Where(t =>(t.Docente.DocenteId == docenteId)).ToList();
+
+                response.Mensaje = "Listado Alquileres";
+                response.Data = AlquilerInstitucionToAlquilerInstitucionDTO(Alquileres);
+                return response;
+
+
+            }
+
+        }
+
         public RespuestaDTO<List<AlquilerInstitucionDTO>> getAlquileresInstitucionPorFecha(DateTime fechaInicialPrestamo, DateTime fechaFinalPrestamo)
         {
             RespuestaDTO<List<AlquilerInstitucionDTO>> response = new RespuestaDTO<List<AlquilerInstitucionDTO>>();
@@ -277,7 +295,7 @@ namespace CapaLogica
         private List<Equipos> Disponibles3(DateTime fechaInicialPrestamo, DateTime fechaFinalPrestamo, String Tipo)
         {
 
-            var EquiposDisponibles = db.Equipos.Where(e => e.Tipo == Tipo && e.AlquilersInstitucion.Where(t =>
+            var EquiposDisponibles = db.Equipos.Where(e => e.Tipo == Tipo && e.Estado == true && e.AlquilersInstitucion.Where(t =>
             (
             (t.fechaInicial >= fechaInicialPrestamo && t.fechaInicial <= fechaFinalPrestamo)
             ||
@@ -294,7 +312,7 @@ namespace CapaLogica
         public List<Equipos> Disponibles2(DateTime fechaInicialPrestamo, DateTime fechaFinalPrestamo, String Tipo)
         {
 
-            var EquiposDisponibles = db.Equipos.Where(e => e.Tipo == Tipo && e.Alquilers.Where(t =>
+            var EquiposDisponibles = db.Equipos.Where(e => e.Tipo == Tipo && e.Estado == true &&  e.Alquilers.Where(t =>
              (
              (t.fechaInicial >= fechaInicialPrestamo && t.fechaInicial <= fechaFinalPrestamo)
              ||

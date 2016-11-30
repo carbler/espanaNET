@@ -276,7 +276,7 @@ namespace CapaLogica
         private List<Equipos> Disponibles3(DateTime fechaInicialPrestamo, DateTime fechaFinalPrestamo, String Tipo)
         {
 
-            var EquiposDisponibles = db.Equipos.Where(e => e.Tipo == Tipo && e.AlquilersInstitucion.Where(t =>
+            var EquiposDisponibles = db.Equipos.Where(e => e.Tipo == Tipo && e.Estado == true && e.AlquilersInstitucion.Where(t =>
             (
             (t.fechaInicial >= fechaInicialPrestamo && t.fechaInicial <= fechaFinalPrestamo)
             ||
@@ -293,7 +293,7 @@ namespace CapaLogica
         public List<Equipos> Disponibles2(DateTime fechaInicialPrestamo, DateTime fechaFinalPrestamo, String Tipo)
         {
 
-            var EquiposDisponibles = db.Equipos.Where(e => e.Tipo == Tipo && e.Alquilers.Where(t =>
+            var EquiposDisponibles = db.Equipos.Where(e => e.Tipo == Tipo && e.Estado == true && e.Alquilers.Where(t =>
              (
              (t.fechaInicial >= fechaInicialPrestamo && t.fechaInicial <= fechaFinalPrestamo)
              ||

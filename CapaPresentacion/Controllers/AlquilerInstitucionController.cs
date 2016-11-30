@@ -45,6 +45,17 @@ namespace CapaPresentacion.Controllers
 
         }
 
+
+        [Route("AlquileresDocente")]
+        public IHttpActionResult AlquileresDocente(CreateAlquilerInstitucionBindingModel model)
+        {
+
+            var respuesta = new AlquilerInstitucionBLL().getAlquileresDocente(model.Docente);
+
+            return Ok(respuesta);
+
+        }
+
     }
 
  
