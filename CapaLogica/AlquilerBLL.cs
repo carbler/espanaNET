@@ -218,6 +218,8 @@ namespace CapaLogica
            
         }
 
+
+
         private List<Equipos> Disponibles(DateTime fechaInicialPrestamo, DateTime fechaFinalPrestamo, String Tipo)
         {
             List<Equipos> EquiposAlquileres = Disponibles2(fechaInicialPrestamo, fechaFinalPrestamo, Tipo);

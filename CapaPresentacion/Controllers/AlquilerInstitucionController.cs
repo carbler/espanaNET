@@ -57,6 +57,22 @@ namespace CapaPresentacion.Controllers
 
         }
 
+        [Authorize]
+        [Route("Hoy")]
+        public IHttpActionResult GetAlquileresHoy()
+        {
+            DateTime ini = DateTime.Now;
+
+
+            DateTime Inicial = new DateTime(ini.Year, ini.Month, ini.Day, 0, 0, 0);
+            DateTime Final = new DateTime(ini.Year, ini.Month, ini.Day, 23, 59, 0);
+
+            var respuesta = new AlquilerInstitucionBLL().getAlquileresInstitucionPorFecha(Inicial, Final);
+
+            return Ok(respuesta);
+
+        }
+
     }
 
  
